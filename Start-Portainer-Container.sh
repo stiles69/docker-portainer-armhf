@@ -1,9 +1,9 @@
 #!/bin/bash  
 #====================================================
 #
-#          FILE: Start-Portainer-Service-Swarm-Manager.sh
+#          FILE: Start-Portainer-Container.sh
 # 
-#         USAGE: ./Start-Portainer-Service-Swarm-Manager.sh 
+#         USAGE: ./Start-Portainer-Container.sh 
 # 
 #   DESCRIPTION: 
 # 
@@ -13,10 +13,9 @@
 #         NOTES: ---
 #        AUTHOR: Brett Salemink (BS), admin@roguedesigns.us
 #  ORGANIZATION: Rogue Designs
-#       CREATED: 10/25/2018 09:02
+#       CREATED: 10/25/2018 08:09
 #      REVISION:  ---
 #====================================================
-set -o nounset                              # Treat unset variables as an error
 
 #------------ SOURCED ----------------
 
@@ -26,26 +25,12 @@ set -o nounset                              # Treat unset variables as an error
 #-------------------------------------
 function Main ()
 {
-docker service create \
-	--name portainer \
-	--publish 9000:9000 \
-	--replicas=1 \
-	--constraint 'node.role == manager' \
-	--mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
-	--mount type=volume,src=portainer_data,dst=/data \
-	portainer/portainer \
-	-H unix:///var/run/docker.sock
-
-
-
-
-
-
-
+	docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v Portainer_Persistant_Data:/data portainer/portainer
 }	# end Main
 
 Main
 
 #===EXIT===
 exit 0
+
 
