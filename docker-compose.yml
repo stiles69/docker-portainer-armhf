@@ -9,7 +9,7 @@ services:
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./Portainer_Persistant_Data:/data
+      - portainer_data:/data
 
-        #volumes:
-        #  portainer_data:
+volumes:
+  portainer_data:
